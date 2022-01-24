@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'head-imports.html' %}
+</head>
+
+<body>
+    {% include 'flash.html' %}
+    <header>
+        {% include 'navbar.html' %}
+    </header>
+    <section class="container" id="content">
+        <h3>{{request.path + '/' if request.path != '/' else ''}}</h3>
+        <ul>
+            {% for file in files %}
+            <li>
+                <i class="fa fa-folder" aria-hidden="true"></i>
+                <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
+                    {{file }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+</body>
+
+</html>
