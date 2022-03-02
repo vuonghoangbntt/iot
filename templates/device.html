@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'head-imports.html' %}
+</head>
+
+<body>
+    {% include 'flash.html' %}
+    <header>
+        {% include 'navbar.html' %}
+    </header>
+    <section class="container" id="content">
+        <h4 style="text-align: center;">List of IoT devices</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Device ID</th>
+                    <th>Last Active</th>
+                    <th>Devices Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                    <td>{{row["id"]}}</td>
+                    <td>{{row["last_active"]}}</td>
+                    <td>{{row['name']}}</td>
+                    <td><ul class="list-inline m-0">
+                        <li class="list-inline-item">
+                            <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><a href="/setting/{{row['id']}}"><i class="fa fa-edit"></i></a></button>
+                        </li>
+                        <li class="list-inline-item">
+                            <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><a href="/delete/{{row['id']}}"><i class="fa fa-trash"></i></a></button>
+                        </li>
+                    </ul></td>	
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-success"><a href="/add_device"><i class="fa fa-plus"></i> Add new device</a></button>
+    </section>
+</body>
+
+</html>

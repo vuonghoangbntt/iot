@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'head-imports.html' %}
+    <style>
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 10px 40px;
+        }
+         
+        .gallery img {
+            width: 250px; 
+            height: 250px;
+            transition: 1s;
+            padding: 5px;
+        }
+        
+        .gallery > div {
+            text-align: center;
+            margin: 10px;
+        }
+         
+        .gallery img:hover {
+            filter: drop-shadow(4px 4px 6px gray);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'flash.html' %}
+    <header>
+        {% include 'navbar.html' %}
+    </header>
+    <section class="container">
+        <h3>{{request.path + '/' if request.path != '/' else ''}}</h3>
+        <div class="gallery">
+            {% for file in files %}
+            <div>
+                <a href="{{'../../../' + abs_path + '/' + file}}">
+                    <img src="{{'../../' + abs_path + '/' + file}}" alt=""> 
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+<!--............................Message flashing................................-->
+{% with messages = get_flashed_messages(with_categories=true) %} 
+{% if messages %} 
+    {% for category, message in messages %} 
+        {% if category == "error" %}
+            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                <button type="button" class="close" onclick="this.parentElement.style.display='none';" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success alter-dismissable fade show" role="alert">
+                <button type="button" class="close" onclick="this.parentElement.style.display='none';" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> >
+                {{ message }}
+            </div>
+        {% endif %} 
+    {% endfor %} 
+{% endif %} 
+{% endwith %}

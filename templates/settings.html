@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'head-imports.html' %}
+</head>
+
+<body>
+    {% include 'flash.html' %}
+    <header>
+        {% include 'navbar.html' %}
+    </header>
+    <div class="container">
+        <form method="POST">
+            <div class="form-group">
+              <label for="SensorName">Device Name</label>
+              <input type="text" class="form-control" id="sensorName" name="sensorName" aria-describedby="sensorName" placeholder="Enter name" value='{{device["name"]}}'>
+            </div>
+            <div class="form-group">
+                <label for="SensorName">Device Type</label>
+                <select id="deviceType" name="deviceType" class="form-control">
+                    <option value="camera">Camera with Motion Sensor</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="SensorName">Interval Time</label>
+                <input type="number" class="form-control" id="intervalTime" name="intervalTime" min="20" max="100" value="{{setting['StateInterval']/1000}}">
+            </div>
+            <div class="form-group">
+                <label>Camera</label>
+                <label class="switch">
+                    {% if setting['CAM_enabled']%}
+                        <input type="checkbox" id="cameraStatus" name="cameraStatus" checked>
+                    {% else %}
+                        <input type="checkbox" id="cameraStatus" name="cameraStatus">
+                    {% endif %}
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>Motion Sensor</label>
+                <label class="switch">
+                    {% if setting['PIR_enabled']%}
+                        <input type="checkbox" id="motionSensorStatus" name="motionSensorStatus" checked>
+                    {% else %}
+                        <input type="checkbox" id="motionSensorStatus" name="motionSensorStatus">
+                    {% endif %}
+                    <span class="slider round"></span>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="SensorName">Delay Time</label>
+                <input type="number" class="form-control" id="intervalTime" name="delayTime" min="3" max="100" value="{{setting['PIR_delay']/1000}}">
+            </div>
+            <div class="form-group">
+                <label>Save to SD</label>
+                <label class="switch">
+                    {% if setting['SD_enabled']%}
+                        <input type="checkbox" id="saveSDStatus" name="saveSDStatus" checked>
+                    {% else %}
+                        <input type="checkbox" id="saveSDStatus" name="saveSDStatus">
+                    {% endif %}
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>

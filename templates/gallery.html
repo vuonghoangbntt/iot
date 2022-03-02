@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'head-imports.html' %}
+</head>
+
+<body>
+    {% include 'flash.html' %}
+    <header>
+        {% include 'navbar.html' %}
+    </header>
+    <section class="container" id="content">
+        <h3>{{request.path + '/' if request.path != '/' else ''}}</h3>
+        <ul>
+            {% for file in files %}
+                {% if file[-3:] in ['jpg','jpeg','png'] %}
+                <li>
+                    <i class="fa fa-image" aria-hidden="true"></i>
+                    <a href="{{'../../' + abs_path + '/' + file}}">
+                        {{file }}
+                    </a>
+                </li>
+                {% else %}
+                <li>
+                    <i class="fa fa-folder" aria-hidden="true"></i>
+                    <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
+                        {{file }}
+                    </a>
+                </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </section>
+    <script src="{{url_for('static', filename='scripts/main.js')}}"></script>
+</body>
+
+</html>
