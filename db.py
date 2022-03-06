@@ -2,7 +2,6 @@ import sqlite3 as sql
 import time
 import paho.mqtt.client as paho
 from paho import mqtt
-from sympy import arg
 from config import *
 import logging
 from flask import g
@@ -102,11 +101,14 @@ class Client:
 
     # print message, useful for checking if it was successful
     def on_message(self, client, userdata, msg):
+        try:
+            content = str(msg.payload.decode("utf-8","ignore"))
+        except:
+            content = msg.payload
         if len(msg.topic.split('/'))>3 and self.check(msg.topic):
             device_id = msg.topic.split('/')[-1]
             current_time = datetime.utcnow()
             current_time = (current_time + timedelta(hours=7)).strftime("%d/%m/%Y %H:%M:%S")
-            
             db = DBAcess()
             u = db.query_db("SELECT * FROM camera WHERE id = ?", args=[device_id], one=True)
             if u is None:
@@ -116,10 +118,10 @@ class Client:
             gate = msg.topic
             u = db.query_db("SELECT * FROM data WHERE gate = ?", args=[gate], one=True)
             if u is None:
-                db.execute("INSERT INTO data (cameraID, gate, content, time) VALUES (?, ?, ?)", args=[device_id, gate, str(msg.payload.decode("utf-8","ignore"), current_time)])
+                db.execute("INSERT INTO data (cameraID, gate, content, time) VALUES (?, ?, ?, ?)", args=[device_id, gate, content, current_time])
             else:
-                db.execute("UPDATE data SET content = ?, time= ? WHERE gate = ?", args=[str(msg.payload.decode("utf-8","ignore")), current_time, gate])
-        logging.info(msg.topic + " " + str(msg.qos) + " " + str(msg.payload.decode("utf-8","ignore")))
+                db.execute("UPDATE data SET content = ?, time= ? WHERE gate = ?", args=[content, current_time, gate])
+        logging.info(msg.topic + " " + str(msg.qos) + " " + content)
 
     def __init__(self):
         # using MQTT version 5 here, for 3.1.1: MQTTv311, 3.1: MQTTv31

@@ -123,9 +123,9 @@ def display_setting(id):
         if status!=setting['CAM_enabled']:
             payload = 'enable' if request.form.get('cameraStatus') else 'disable'
             client.publish(PUBLISH_GATE['camera_setting']+id,payload=payload)
-        status = True if request.form.get('motionStatus') else False
+        status = True if request.form.get('motionSensorStatus') else False
         if status!=setting['PIR_enabled']:
-            payload = 'enable' if request.form.get('motionStatus') else 'disable'
+            payload = 'enable' if request.form.get('motionSensorStatus') else 'disable'
             client.publish(PUBLISH_GATE['motion_setting']+id,payload=payload)
         delayTime = request.form['delayTime']
 
@@ -169,7 +169,7 @@ def delete_device(id):
     return redirect(url_for('index'))
 @app.route('/upload/<path:id>', methods=['POST','GET'])
 def upload(id):
-	now = datetime.now()
+	now = datetime.utcnow()+ timedelta(hours=7)
 	dt_string = now.strftime("%H_%M_%S")
 	saved_folder = os.path.join(app.root_path, UPLOAD_FOLDER+'/'+id+'/'+now.strftime("%d_%m_%Y"))
 	if not os.path.isdir(saved_folder):
@@ -190,6 +190,3 @@ def upload(id):
 		if not os.path.isdir(UPLOAD_FOLDER):
 			os.mkdir(UPLOAD_FOLDER)
 		return dt_string
-
-if __name__ == "__main__":
-  app.run(host='0.0.0.0',port=8080,threaded=True)
